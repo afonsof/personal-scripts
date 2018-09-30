@@ -1,0 +1,19 @@
+{
+  "name": "inter",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "async-csv": "^1.0.1",
+    "bluebird": "^3.5.2",
+    "moment": "^2.22.2",
+    "puppeteer": "^1.8.0",
+    "zip-array": "^1.0.1"
+  }
+}

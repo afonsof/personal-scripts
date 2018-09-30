@@ -1,0 +1,19 @@
+{
+  "name": "finance-sheet",
+  "version": "1.0.0",
+  "description": "",
+  "main": "finance-sheet.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "date-helper": "github:afonsof/date-helper#v1.0.0",
+    "moment": "^2.22.2",
+    "properties-mapper": "github:afonsof/properties-mapper#v1.0.0",
+    "sinon": "^6.3.4",
+    "table-converter": "github:afonsof/table-converter#v1.0.0"
+  }
+}

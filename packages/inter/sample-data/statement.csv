@@ -1,0 +1,10 @@
+ Extrato Conta Corrente 
+Conta ;15415171
+Período ;31/08/2018;30/09/2018
+Saldo Bloqueado ;R$ 0,00
+Saldo Disponível ;R$ 1.471,46
+Saldo Total;R$ 1.471,46
+
+DATA LANÇAMENTO;HISTÓRICO;VALOR;SALDO
+10/09/2018;Salário; R$ 2.284,32;2.284,32
+10/09/2018;Pagamento de boleto; R$ 270,00;2.554,32
