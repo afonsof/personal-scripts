@@ -4,7 +4,7 @@ const fs = bluebird.promisifyAll(require('fs'))
 
 module.exports.JsonDatabase = class JsonDatabase {
     constructor() {
-        this.fileName = '../local-data.json'
+        this.fileName = 'data/local-data.json'
     }
 
     async load() {
@@ -28,14 +28,30 @@ module.exports.JsonDatabase = class JsonDatabase {
     }
 }
 
+module.exports.normalizeDescription = (description) => {
+    let localDescription = description ? description.toUpperCase() : ''
+    localDescription = localDescription.replace(/[^\w\s]/gi, '')
+    const items = localDescription.trim().split(' ').filter(w => !!w && w !== '-')
+    if (items[items.length - 1].length < 3) {
+        items.pop()
+    }
+    return items.join(' ')
+}
+
 module.exports.Table = class Table {
-    constructor() {
+    constructor(categoryFinder) {
         this.data = {}
+        this.categoryFinder = categoryFinder
     }
 
     upsert(rows) {
         rows.forEach((line) => {
-            const localLine = { ...line }
+            const localLine = {
+                ...line,
+                description: module.exports.normalizeDescription(line.description),
+                category: line.category || this.categoryFinder.findByStatementLine(line),
+            }
+
             if (!localLine.id) {
                 // eslint-disable-next-line no-param-reassign
                 localLine.id = md5(`${line.date}-${line.value}-${line.description}`)
@@ -50,6 +66,7 @@ module.exports.Table = class Table {
             }
             this.data[localLine.id] = localLine
         })
+        return this
     }
 
     get rows() {

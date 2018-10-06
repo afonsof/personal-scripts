@@ -1,5 +1,5 @@
 const statementParser = require('./statement-parser')
 
-module.export = {
+module.exports = {
     statementParser,
 }

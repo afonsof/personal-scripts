@@ -8,7 +8,10 @@ const { CategoryFinder } = require('category-finder');
 
 (async () => {
     try {
-        const client = await GoogleClient.authAndCreate(process.env.GOOGLE_CLIENT_CREDENTIALS)
+        const client = await GoogleClient.authAndCreate({
+            credentials: process.env.GOOGLE_CLIENT_CREDENTIALS,
+            scope: ['https://www.googleapis.com/auth/spreadsheets'],
+        })
         const sheetsHelper = new GoogleSheetsHelper(client, process.env.SPREADSHEET_ID)
         const sheet = new FinanceSheet(sheetsHelper)
         const jsonDatabase = new JsonDatabase()
@@ -33,19 +36,16 @@ const { CategoryFinder } = require('category-finder');
         )
         const localData = await jsonDatabase.load()
 
-        const table = new Table()
+        const table = new Table(categoryFinder)
 
-        table.upsert(sheetData)
-        table.upsert(interDataAfonso)
-        table.upsert(interDataJuliana)
-        table.upsert(localData)
+        const mergedData = table
+            .upsert(sheetData)
+            .upsert(interDataAfonso)
+            .upsert(interDataJuliana)
+            .upsert(localData)
+            .rows
 
-        const mergedData = table.rows.map(row => ({
-            ...row,
-            category: row.category || categoryFinder.findByStatementLine(row),
-        }))
-
-        await sheet.setStatement('Extrato', mergedData)
+        await sheet.setStatement(mergedData)
         await jsonDatabase.save(mergedData)
     } catch (e) {
         console.error(e)

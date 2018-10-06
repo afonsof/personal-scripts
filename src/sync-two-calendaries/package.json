@@ -1,5 +1,5 @@
 {
-  "name": "google",
+  "name": "sync-two-calendaries",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -11,10 +11,10 @@
   "license": "ISC",
   "dependencies": {
     "bluebird": "^3.5.2",
-    "googleapis": "^34.0.0",
+    "cron": "^1.4.1",
+    "dotenv": "^6.0.0",
+    "google": "github:afonsof/google#v1.0.0",
     "moment": "^2.22.2",
-    "readline": "^1.3.0",
-    "table-converter": "github:afonsof/table-converter#v1.0.0",
-    "urlencode": "^1.1.0"
+    "winston": "^3.1.0"
   }
 }

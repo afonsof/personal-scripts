@@ -72,7 +72,7 @@ describe('finance-sheet', () => {
 
         categoryRules.should.be.deep.equal([{
             date: moment('2010-01-01T00:00:00.000Z').toDate(),
-            description: 'walmart',
+            description: 'WALMART',
             value: 123.45,
         }])
     })
@@ -92,7 +92,7 @@ describe('finance-sheet', () => {
         fakeHelper.setValues
             .calledWith('statements', [
                 ['Data', 'Descrição', 'Categoria', 'Valor', 'Conta'],
-                ['2010|01|01', 'walmart', 'any-category', 123.45, 'any-account'],
+                ['2010|01|01', 'WALMART', 'any-category', 123.45, 'any-account'],
             ])
             .should.be.equal(true)
     })

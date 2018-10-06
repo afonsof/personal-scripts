@@ -11,9 +11,11 @@
   "license": "ISC",
   "dependencies": {
     "date-helper": "github:afonsof/date-helper#v1.0.0",
-    "moment": "^2.22.2",
     "properties-mapper": "github:afonsof/properties-mapper#v1.0.0",
-    "sinon": "^6.3.4",
-    "table-converter": "github:afonsof/table-converter#v1.0.0"
+    "table-converter": "github:afonsof/table-converter#v1.0.0",
+    "moment": "^2.22.2"
+  },
+  "devDependencies": {
+    "sinon": "^6.3.4"
   }
 }

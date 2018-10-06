@@ -48,24 +48,31 @@ module.exports.FinanceSheet = class FinanceSheet {
     }
 
     async getStatement() {
-        return this.sheetsHelper.getTable(
+        const table = await this.sheetsHelper.getTable(
             this.namedRanges.statements, this.statementMapper,
-        ).map(row => ({
+        )
+        return table.map(row => ({
             ...row,
             date: stringToDate(row.date),
             value: parseFloat(row.value),
+            description: row.description
+                ? row.description.toUpperCase()
+                : row.description,
         }))
     }
 
-    async setStatement(data) {
-        const aaa = data.map(row => ({
+    async setStatement(data, tab) {
+        const localData = data.map(row => ({
             ...row,
             date: dateToString(row.date),
             value: row.value ? parseFloat(row.value) : row.value,
+            description: row.description
+                ? row.description.toUpperCase()
+                : row.description,
         }))
-        const mapped = this.statementMapper.map(aaa)
+        const mapped = this.statementMapper.map(localData)
         const header = Object.values(this.statementMapper.mapData)
         const table = objectToTable(mapped, header)
-        await this.sheetsHelper.setValues(this.namedRanges.statements, table)
+        await this.sheetsHelper.setValues(tab || this.namedRanges.statements, table)
     }
 }
