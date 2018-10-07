@@ -1,5 +1,5 @@
 {
-  "name": "sync-two-calendaries",
+  "name": "logger",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -10,12 +10,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "bluebird": "^3.5.2",
-    "cron": "^1.4.1",
-    "dotenv": "^6.0.0",
-    "google": "github:afonsof/google#v1.0.0",
-    "logger": "github:afonsof/logger#v1.0.0",
-    "moment": "^2.22.2",
     "winston": "^3.1.0"
   }
 }

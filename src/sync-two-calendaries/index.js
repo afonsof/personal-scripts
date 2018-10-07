@@ -2,6 +2,8 @@ require('dotenv').load()
 
 const { CronJob } = require('cron')
 const { GoogleClient, GoogleCalendarHelper } = require('google')
+const { createLogger } = require('logger')
+
 const { CalendarSynchronizer } = require('./calendar-synchronizer')
 
 const sync = async ({ logger }) => {
@@ -25,16 +27,17 @@ const sync = async ({ logger }) => {
         })
         await synchronizer.sync()
     } catch (e) {
-        logger.error(e)
+        logger.error(e.stack)
     }
 }
+const logger = createLogger()
 
-console.log('Starting Cron Job...')
+logger.info('Starting Cron Job...')
 const job = new CronJob('*/10 * * * *', async () => {
-    console.log('Running sync...')
-    await sync({ logger: console })
-    console.log('OK')
+    logger.info('Running sync...')
+    await sync({ logger })
+    logger.info('OK')
 }, null, true)
-console.log('OK')
+logger.info('OK')
 
 job.start()

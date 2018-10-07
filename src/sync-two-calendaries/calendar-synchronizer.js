@@ -74,14 +74,14 @@ module.exports.CalendarSynchronizer = class CalendarSynchronizer {
         await bluebird.each(eventsToInsert, async (e) => {
             await this.destinyCalendar.insert(e)
         })
-        this.logger.log(`${eventsToInsert.length} events inserted.`)
+        this.logger.info(`${eventsToInsert.length} events inserted.`)
         await bluebird.each(eventsToUpdate, async (e) => {
             await this.destinyCalendar.update(e)
         })
-        this.logger.log(`${eventsToUpdate.length} events updated.`)
+        this.logger.info(`${eventsToUpdate.length} events updated.`)
         await bluebird.each(eventsToDelete, async (e) => {
             await this.destinyCalendar.delete(e.id)
         })
-        this.logger.log(`${eventsToDelete.length} events deleted.`)
+        this.logger.info(`${eventsToDelete.length} events deleted.`)
     }
 }
