@@ -33,9 +33,9 @@ module.exports.CalendarSynchronizer = class CalendarSynchronizer {
     async sync(now) {
         const startDate = moment(now).add(-7, 'day').toDate()
         const endDate = moment(now).add(7 * 8, 'day').toDate()
-        const sourceEvents = await this.sourceCalendar.list(startDate, endDate)
+        const sourceEvents = await this.sourceCalendar.list({ startDate, endDate })
 
-        const destinyEvents = await this.destinyCalendar.list(startDate, endDate)
+        const destinyEvents = await this.destinyCalendar.list({ startDate, endDate })
 
         const eventsToInsert = []
         const eventsToUpdate = []

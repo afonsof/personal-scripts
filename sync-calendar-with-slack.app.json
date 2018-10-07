@@ -1,0 +1,5 @@
+{
+  "name" : "sync-calendar-with-slack",
+  "script" : "index.js",
+  "cwd" : "src/sync-calendar-with-slack"
+}

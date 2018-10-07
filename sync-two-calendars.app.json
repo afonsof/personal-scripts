@@ -1,0 +1,5 @@
+{
+  "name" : "sync-two-calendars",
+  "script" : "index.js",
+  "cwd" : "src/sync-two-calendars"
+}

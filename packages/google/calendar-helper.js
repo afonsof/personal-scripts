@@ -4,11 +4,11 @@ module.exports.GoogleCalendarHelper = class GoogleCalendarHelper {
         this.calendarId = calendarId
     }
 
-    async list(startDate, endDate) {
+    async list({ startDate, endDate, maxResults = 2500 }) {
         try {
             const params = {
                 calendarId: this.calendarId,
-                maxResults: 2500,
+                maxResults,
                 singleEvents: true,
                 orderBy: 'startTime',
                 showDeleted: false,

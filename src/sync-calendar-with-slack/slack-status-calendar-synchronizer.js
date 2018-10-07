@@ -1,15 +1,19 @@
 const moment = require('moment')
 
 module.exports.SlackStatusCalendarSynchronizer = class SlackStatusCalendarSynchronizer {
-    constructor({ calendarHelper, slackClient }) {
+    constructor({ calendarHelper, slackClient, logger }) {
         this.calendarHelper = calendarHelper
         this.slackClient = slackClient
+        this.logger = logger
     }
 
     async sync(now) {
         const localNow = now || new Date()
         const startDate = moment(localNow).add(-1, 'day').toDate()
-        const events = await this.calendarHelper.list(startDate)
+        const endDate = moment(localNow).add(1, 'day').toDate()
+        this.logger.info('Listing current events...')
+        const events = await this.calendarHelper.list({ startDate, endDate })
+        this.logger.info(`${events.length} events found.`)
 
         const nowEvent = events.find((e) => {
             const start = moment(e.start.dateTime).toDate()
@@ -31,6 +35,7 @@ module.exports.SlackStatusCalendarSynchronizer = class SlackStatusCalendarSynchr
             emoji = ':hamburger:'
         }
 
+        this.logger.info(`Updating slack with ${emoji} - ${text}`)
         await this.slackClient.userProfileSet({
             profile: {
                 status_text: text,
@@ -38,5 +43,6 @@ module.exports.SlackStatusCalendarSynchronizer = class SlackStatusCalendarSynchr
                 status_expiration: 0,
             },
         })
+        this.logger.info('Updated with success')
     }
 }

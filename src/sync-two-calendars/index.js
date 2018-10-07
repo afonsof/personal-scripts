@@ -1,12 +1,13 @@
 require('dotenv').load()
 
-const { CronJob } = require('cron')
-const { GoogleClient, GoogleCalendarHelper } = require('google')
+const { CronTask } = require('cron-task')
 const { createLogger } = require('logger')
+const { GoogleClient, GoogleCalendarHelper } = require('google')
 
-const { CalendarSynchronizer } = require('./calendar-synchronizer')
+const { CalendarSynchronizer } = require('./calendar-synchronizer');
 
-const sync = async ({ logger }) => {
+(async () => {
+    const logger = createLogger()
     try {
         const sourceClient = await GoogleClient.authAndCreate({
             id: 'source-client',
@@ -25,19 +26,15 @@ const sync = async ({ logger }) => {
             destinyCalendar,
             logger,
         })
-        await synchronizer.sync()
+
+        const cronTask = new CronTask({
+            name: 'sync-two-calendars',
+            cron: process.env.CRON,
+        })
+        cronTask.run(async () => {
+            await synchronizer.sync()
+        })
     } catch (e) {
         logger.error(e.stack)
     }
-}
-const logger = createLogger()
-
-logger.info('Starting Cron Job...')
-const job = new CronJob('*/10 * * * *', async () => {
-    logger.info('Running sync...')
-    await sync({ logger })
-    logger.info('OK')
-}, null, true)
-logger.info('OK')
-
-job.start()
+})()

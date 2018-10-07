@@ -10,8 +10,6 @@ module.exports.createLogger = () => createLogger({
         myFormat,
     ),
     transports: [
-        new transports.File({ filename: 'error.log', level: 'error' }),
-        new transports.File({ filename: 'combined.log' }),
         new transports.Console(),
     ],
 })
