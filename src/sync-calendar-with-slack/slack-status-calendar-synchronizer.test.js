@@ -12,6 +12,8 @@ describe('slack-status-calendar-synchronizer', () => {
         synchronizer = new SlackStatusCalendarSynchronizer({
             slackClient: fakeSlackClient,
             calendarHelper: fakeCalendarHelper,
+            logger: console,
+            timezone: 'America/Sao_Paulo',
         })
         fakeSlackClient.userProfileSet = sinon.fake()
     })
@@ -90,6 +92,20 @@ describe('slack-status-calendar-synchronizer', () => {
                     status_emoji: ':calendar:',
                     status_expiration: 0,
                     status_text: 'Ocupado: any-event-summary',
+                },
+            }]])
+        })
+
+        it('set profile octopus when there is no event and is not night when server timezone is wrong', async () => {
+            fakeCalendarHelper.list = sinon.fake.returns([])
+
+            const startDate = moment('2010-01-01T20:00:00+00:00').toDate()
+            await synchronizer.sync(startDate)
+            fakeSlackClient.userProfileSet.args.should.be.deep.equal([[{
+                profile: {
+                    status_emoji: ':gupytopus:',
+                    status_expiration: 0,
+                    status_text: 'Team Octopus',
                 },
             }]])
         })
