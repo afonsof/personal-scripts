@@ -18,9 +18,12 @@ const { SlackStatusCalendarSynchronizer } = require('./slack-status-calendar-syn
         const calendarHelper = new GoogleCalendarHelper(client, process.env.CALENDAR_ID)
         const slackClient = new SlackClient(process.env.SLACK_TOKEN)
 
-        const synchronizer = new SlackStatusCalendarSynchronizer(
-            { logger, slackClient, calendarHelper },
-        )
+        const synchronizer = new SlackStatusCalendarSynchronizer({
+            logger,
+            slackClient,
+            calendarHelper,
+            timezone: process.env.TIMEZONE,
+        })
 
         const cronTask = new CronTask({
             name: 'sync-with-slack',

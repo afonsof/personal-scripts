@@ -1,0 +1,34 @@
+general:
+  # type here your remote address or ip
+  remoteServer: # ex. test.myserver.com
+
+  # type here your root topic
+  place: # ex. home
+
+# Here you can define your devices
+devices:
+  - id: my-light
+    type: light
+    topic: my-light
+    driver:
+      id: mqtt-light
+
+  - id: living-room-tv
+    type: media-player
+    topic: living-room
+    driver:
+      id: mqtt-lg-media-player
+      host: [type here your lg tv ip] # ex. 192.168.100.101
+      macAddress: [type here your lg tv mac address] # ex. 20:19:ee:a7:99:4b
+
+# Here you can create automations, a batch of commands that runs at once
+batch:
+  - trigger: NETFLIX-MODE
+    actions:
+    - deviceId: all-lights
+      command: powerOff
+    - deviceId: living-room-tv
+      command: powerOn
+    - sleep: 8000
+    - deviceId: living-room-tv
+      command: setSource:netflix

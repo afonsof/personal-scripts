@@ -1,0 +1,31 @@
+{
+  "name": "mosca-test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "lib/server.js",
+  "scripts": {
+    "start": "server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/node": "^7.0.5",
+    "bluebird": "^3.5.0",
+    "body-parser": "^1.18.1",
+    "express": "^4.15.4",
+    "js-yaml": "^3.11.0",
+    "lgtv2": "^1.4.1",
+    "mosca": "^2.5.2",
+    "mqtt": "^2.18.0",
+    "ngrok": "^3.1.0",
+    "node-hue-api": "^2.4.2",
+    "robotjs": "^0.5.1",
+    "wake_on_lan": "^0.0.4"
+  },
+  "devDependencies": {
+    "@types/bluebird": "^3.5.20",
+    "@types/js-yaml": "^3.11.1",
+    "@types/wake_on_lan": "0.0.27",
+    "flow-remove-types": "^1.2.3"
+  }
+}

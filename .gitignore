@@ -67,3 +67,8 @@ config/
 .idea/
 token.json
 
+
+config.yml
+.tmp/
+src/home-automation/scripts
+src/home-automation/lib
