@@ -3,8 +3,8 @@ const momentTz = require('moment-timezone')
 
 module.exports.SlackStatusCalendarSynchronizer = class SlackStatusCalendarSynchronizer {
     constructor({
-        calendarHelper, slackClient, logger, timezone,
-    }) {
+                    calendarHelper, slackClient, logger, timezone,
+                }) {
         this.calendarHelper = calendarHelper
         this.slackClient = slackClient
         this.logger = logger
@@ -34,8 +34,18 @@ module.exports.SlackStatusCalendarSynchronizer = class SlackStatusCalendarSynchr
         const nowTz = momentTz(localNow).tz(this.timezone)
 
         if (nowEvent) {
-            text = `Ocupado: ${nowEvent.summary}`
-            emoji = ':calendar:'
+            const eventLower = nowEvent.summary.toLowerCase()
+            if (eventLower.includes('almoç')
+                || eventLower.includes('lunch')
+                || eventLower.includes('dinner')
+                || eventLower.includes('janta')
+            ) {
+                text = nowEvent.summary.replace(/🍔/g, '')
+                emoji = ':hamburger:'
+            } else {
+                text = `Ocupado: ${nowEvent.summary}`
+                emoji = ':calendar:'
+            }
         } else if (nowTz.hours() > 18 || nowTz.hours() < 9) {
             text = 'Away'
             emoji = ':parrotsleep:'
