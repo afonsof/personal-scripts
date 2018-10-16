@@ -9,4 +9,14 @@ module.exports.SlackClient = class SlackClient {
     async userProfileSet(user) {
         await this.client.users.profile.set(user)
     }
+
+    async startSnooze() {
+        await this.client.dnd.setSnooze({
+            num_minutes: 60,
+        })
+    }
+
+    async endSnooze() {
+        await this.client.dnd.endSnooze()
+    }
 }

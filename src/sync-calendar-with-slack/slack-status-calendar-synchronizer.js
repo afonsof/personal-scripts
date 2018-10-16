@@ -3,8 +3,8 @@ const momentTz = require('moment-timezone')
 
 module.exports.SlackStatusCalendarSynchronizer = class SlackStatusCalendarSynchronizer {
     constructor({
-                    calendarHelper, slackClient, logger, timezone,
-                }) {
+        calendarHelper, slackClient, logger, timezone,
+    }) {
         this.calendarHelper = calendarHelper
         this.slackClient = slackClient
         this.logger = logger
@@ -32,6 +32,7 @@ module.exports.SlackStatusCalendarSynchronizer = class SlackStatusCalendarSynchr
         let emoji = ':gupytopus:'
 
         const nowTz = momentTz(localNow).tz(this.timezone)
+        let snooze = false
 
         if (nowEvent) {
             const eventLower = nowEvent.summary.toLowerCase()
@@ -42,6 +43,7 @@ module.exports.SlackStatusCalendarSynchronizer = class SlackStatusCalendarSynchr
             ) {
                 text = nowEvent.summary.replace(/🍔/g, '')
                 emoji = ':hamburger:'
+                snooze = true
             } else {
                 text = `Ocupado: ${nowEvent.summary}`
                 emoji = ':calendar:'
@@ -49,9 +51,10 @@ module.exports.SlackStatusCalendarSynchronizer = class SlackStatusCalendarSynchr
         } else if (nowTz.hours() > 18 || nowTz.hours() < 9) {
             text = 'Away'
             emoji = ':parrotsleep:'
+            snooze = true
         }
 
-        this.logger.info(`Updating slack with ${emoji} - ${text}`)
+        this.logger.info(`Updating slack profile with ${emoji} - ${text}...`)
         await this.slackClient.userProfileSet({
             profile: {
                 status_text: text,
@@ -59,6 +62,15 @@ module.exports.SlackStatusCalendarSynchronizer = class SlackStatusCalendarSynchr
                 status_expiration: 0,
             },
         })
-        this.logger.info('Updated with success')
+        this.logger.info('Updated slack profile with success')
+
+        if (snooze) {
+            this.logger.info('Time to snooze...')
+            await this.slackClient.startSnooze()
+        } else {
+            this.logger.info('Time to wake up..')
+            await this.slackClient.endSnooze()
+        }
+        this.logger.info('Updated slack snooze data with success')
     }
 }
