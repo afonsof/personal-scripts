@@ -28,8 +28,8 @@ module.exports.SlackStatusCalendarSynchronizer = class SlackStatusCalendarSynchr
             return start < localNow && end > localNow
         })
 
-        let text = 'Team Octopus'
-        let emoji = ':gupytopus:'
+        let text = 'Team Nautilus'
+        let emoji = ':nautilus:'
 
         const nowTz = momentTz(localNow).tz(this.timezone)
         let snooze = false
